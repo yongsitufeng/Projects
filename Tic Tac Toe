@@ -1,0 +1,156 @@
+#include <iostream>
+using namespace std;
+void draw();
+void check();
+void place(int num, char t);
+bool checkWin(char player);
+char board [3][3]= {
+    {'1','2','3'}, 
+    {'4','5','6'}, 
+    {'7','8','9'},
+};
+//add a draw
+//players can't override each other
+int main()
+{
+    bool win = false;
+    string player1, player2;
+    char p1, p2;
+    cout<< "Enter the name of the first player: ";
+    cin >> player1;
+    cout<< "Are you x or o: ";
+    cin >> p1;
+    if(p1 == 'x')
+    {
+        p2 = 'o';
+    }
+    else if (p1 == 'o')
+    {
+        p2 = 'x';
+    }
+    else
+    {
+        cout << "Wrong letter...";
+    }
+    cout<< "Enter the name of the second player: ";
+    cin >> player2;
+    while (!win)
+    {
+        draw();
+        int cnum;
+        for (int i = 0; i < 20; i++)
+        {
+            if (i % 2 == 0)
+            {
+                cout << player2 << " Enter a cell number: ";
+                cin >> cnum;
+                place(cnum,p2);
+                draw();
+            }
+            else
+            {
+                cout << player1 << " Enter a cell number: ";
+                cin >> cnum;
+                place(cnum, p1);
+                draw();
+            }
+            if(checkWin(p1))
+            {
+                cout << player1 << " wins!" << endl;
+                win = true;
+            }
+            else if(checkWin(p2))
+            {
+                cout << player2 << " wins!" << endl;
+                win = true;
+            }
+        }
+        cout << endl;
+    }
+}
+
+void draw()
+{
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            cout << board[i][j];
+            if(j < 2)
+            {
+                cout << " | ";
+            }
+        }
+        if (i < 2)
+        {
+            cout << endl;
+            for (int divider = 0; divider < 9; divider++)
+            {
+                cout << "-";
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
+}
+
+void place(int num, char t)
+{
+    switch (num)
+    {
+    case 1:
+        board[0][0] = t;
+        break;
+    case 2:
+        board[0][1] = t;
+        break;
+    case 3:
+        board[0][2] = t;
+        break;
+    case 4:
+        board[1][0] = t;
+        break;
+    case 5:
+        board[1][1] = t;
+        break;
+    case 6:
+        board[1][2] = t;
+        break;
+    case 7:
+        board[2][0] = t;
+        break;
+    case 8:
+        board[2][1] = t;
+        break;
+    case 9:
+        board[2][2] = t;
+        break;
+    default:
+        cout << "No cell found, please choose another number: ";
+        break;
+    }
+}
+bool checkWin(char player)
+{
+    for (int i = 0; i < 3; i++)
+    {
+        if (board[i][0] == player && board[i][1] == player && board[i][2] == player)
+        {
+            return true;
+        }
+    }
+    for (int j = 0; j < 3; j++)
+    {
+        if (board[0][j] == player && board[1][j] == player && board[2][j] == player)
+        {
+            return true;
+        }
+    }
+    if ((board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
+        (board[0][2] == player && board[1][1] == player && board[2][0] == player))
+    {
+        return true;
+    }
+    return false;
+}
+
